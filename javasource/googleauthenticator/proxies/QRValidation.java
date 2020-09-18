@@ -21,6 +21,7 @@ public class QRValidation
 	public enum MemberNames
 	{
 		PIN("PIN"),
+		Validated("Validated"),
 		QRValidation_GoogleAuthCredential("GoogleAuthenticator.QRValidation_GoogleAuthCredential");
 
 		private java.lang.String metaName;
@@ -142,6 +143,42 @@ public class QRValidation
 	public final void setPIN(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String pin)
 	{
 		getMendixObject().setValue(context, MemberNames.PIN.toString(), pin);
+	}
+
+	/**
+	 * @return value of Validated
+	 */
+	public final java.lang.Boolean getValidated()
+	{
+		return getValidated(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Validated
+	 */
+	public final java.lang.Boolean getValidated(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.Validated.toString());
+	}
+
+	/**
+	 * Set value of Validated
+	 * @param validated
+	 */
+	public final void setValidated(java.lang.Boolean validated)
+	{
+		setValidated(getContext(), validated);
+	}
+
+	/**
+	 * Set value of Validated
+	 * @param context
+	 * @param validated
+	 */
+	public final void setValidated(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean validated)
+	{
+		getMendixObject().setValue(context, MemberNames.Validated.toString(), validated);
 	}
 
 	/**

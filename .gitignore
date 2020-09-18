@@ -8,3 +8,4 @@ deployment
 .settings/
 .gradle/
 .svn/
+.mendix-cache/

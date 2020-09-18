@@ -23,7 +23,9 @@ public class GoogleAuthCredential
 		UserName("UserName"),
 		ga_SecretKey("ga_SecretKey"),
 		url("url"),
-		GoogleAuthCredential_User("GoogleAuthenticator.GoogleAuthCredential_User");
+		SetupComplete("SetupComplete"),
+		GoogleAuthCredential_User("GoogleAuthenticator.GoogleAuthCredential_User"),
+		GoogleAuthCredential_Cached_UserRole("GoogleAuthenticator.GoogleAuthCredential_Cached_UserRole");
 
 		private java.lang.String metaName;
 
@@ -227,6 +229,42 @@ public class GoogleAuthCredential
 	}
 
 	/**
+	 * @return value of SetupComplete
+	 */
+	public final java.lang.Boolean getSetupComplete()
+	{
+		return getSetupComplete(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of SetupComplete
+	 */
+	public final java.lang.Boolean getSetupComplete(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Boolean) getMendixObject().getValue(context, MemberNames.SetupComplete.toString());
+	}
+
+	/**
+	 * Set value of SetupComplete
+	 * @param setupcomplete
+	 */
+	public final void setSetupComplete(java.lang.Boolean setupcomplete)
+	{
+		setSetupComplete(getContext(), setupcomplete);
+	}
+
+	/**
+	 * Set value of SetupComplete
+	 * @param context
+	 * @param setupcomplete
+	 */
+	public final void setSetupComplete(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean setupcomplete)
+	{
+		getMendixObject().setValue(context, MemberNames.SetupComplete.toString(), setupcomplete);
+	}
+
+	/**
 	 * @return value of GoogleAuthCredential_User
 	 */
 	public final system.proxies.User getGoogleAuthCredential_User() throws com.mendix.core.CoreException
@@ -267,6 +305,52 @@ public class GoogleAuthCredential
 			getMendixObject().setValue(context, MemberNames.GoogleAuthCredential_User.toString(), null);
 		else
 			getMendixObject().setValue(context, MemberNames.GoogleAuthCredential_User.toString(), googleauthcredential_user.getMendixObject().getId());
+	}
+
+	/**
+	 * @return value of GoogleAuthCredential_Cached_UserRole
+	 */
+	public final java.util.List<system.proxies.UserRole> getGoogleAuthCredential_Cached_UserRole() throws com.mendix.core.CoreException
+	{
+		return getGoogleAuthCredential_Cached_UserRole(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of GoogleAuthCredential_Cached_UserRole
+	 */
+	@SuppressWarnings("unchecked")
+	public final java.util.List<system.proxies.UserRole> getGoogleAuthCredential_Cached_UserRole(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
+	{
+		java.util.List<system.proxies.UserRole> result = new java.util.ArrayList<system.proxies.UserRole>();
+		Object valueObject = getMendixObject().getValue(context, MemberNames.GoogleAuthCredential_Cached_UserRole.toString());
+		if (valueObject == null)
+			return result;
+		for (com.mendix.systemwideinterfaces.core.IMendixObject mendixObject : com.mendix.core.Core.retrieveIdList(context, (java.util.List<com.mendix.systemwideinterfaces.core.IMendixIdentifier>) valueObject))
+			result.add(system.proxies.UserRole.initialize(context, mendixObject));
+		return result;
+	}
+
+	/**
+	 * Set value of GoogleAuthCredential_Cached_UserRole
+	 * @param googleauthcredential_cached_userrole
+	 */
+	public final void setGoogleAuthCredential_Cached_UserRole(java.util.List<system.proxies.UserRole> googleauthcredential_cached_userrole)
+	{
+		setGoogleAuthCredential_Cached_UserRole(getContext(), googleauthcredential_cached_userrole);
+	}
+
+	/**
+	 * Set value of GoogleAuthCredential_Cached_UserRole
+	 * @param context
+	 * @param googleauthcredential_cached_userrole
+	 */
+	public final void setGoogleAuthCredential_Cached_UserRole(com.mendix.systemwideinterfaces.core.IContext context, java.util.List<system.proxies.UserRole> googleauthcredential_cached_userrole)
+	{
+		java.util.List<com.mendix.systemwideinterfaces.core.IMendixIdentifier> identifiers = new java.util.ArrayList<com.mendix.systemwideinterfaces.core.IMendixIdentifier>();
+		for (system.proxies.UserRole proxyObject : googleauthcredential_cached_userrole)
+			identifiers.add(proxyObject.getMendixObject().getId());
+		getMendixObject().setValue(context, MemberNames.GoogleAuthCredential_Cached_UserRole.toString(), identifiers);
 	}
 
 	/**
