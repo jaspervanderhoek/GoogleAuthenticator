@@ -15,12 +15,6 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 public class Microflows
 {
 	// These are the microflows for the GoogleAuthenticator module
-	public static void _AddGAuthToUser(IContext context, system.proxies.User _user)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("User", _user == null ? null : _user.getMendixObject());
-		Core.microflowCall("GoogleAuthenticator._AddGAuthToUser").withParams(params).execute(context);
-	}
 	public static boolean afterStartup(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
@@ -31,6 +25,13 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("User", _user == null ? null : _user.getMendixObject());
 		IMendixObject result = (IMendixObject)Core.microflowCall("GoogleAuthenticator.CreateGoogleAuthCredentials").withParams(params).execute(context);
+		return result == null ? null : googleauthenticator.proxies.GoogleAuthCredential.initialize(context, result);
+	}
+	public static googleauthenticator.proxies.GoogleAuthCredential dS_GetGAuthForUser(IContext context, administration.proxies.Account _account)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("Account", _account == null ? null : _account.getMendixObject());
+		IMendixObject result = (IMendixObject)Core.microflowCall("GoogleAuthenticator.DS_GetGAuthForUser").withParams(params).execute(context);
 		return result == null ? null : googleauthenticator.proxies.GoogleAuthCredential.initialize(context, result);
 	}
 	public static java.util.List<administration.proxies.Account> dS_GetUsersWithGAuth(IContext context)
@@ -66,10 +67,16 @@ public class Microflows
 		params.put("User", _user == null ? null : _user.getMendixObject());
 		Core.microflowCall("GoogleAuthenticator.Login").withParams(params).execute(context);
 	}
-	public static void mB_RemoveGoogleAuthForUser(IContext context, administration.proxies.Account _account)
+	public static void mB_AddGAuthToUser(IContext context, system.proxies.User _user)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("Account", _account == null ? null : _account.getMendixObject());
+		params.put("User", _user == null ? null : _user.getMendixObject());
+		Core.microflowCall("GoogleAuthenticator.MB_AddGAuthToUser").withParams(params).execute(context);
+	}
+	public static void mB_RemoveGoogleAuthForUser(IContext context, system.proxies.User _user)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("User", _user == null ? null : _user.getMendixObject());
 		Core.microflowCall("GoogleAuthenticator.MB_RemoveGoogleAuthForUser").withParams(params).execute(context);
 	}
 	public static void nav_Homepage(IContext context)
@@ -77,12 +84,18 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		Core.microflowCall("GoogleAuthenticator.Nav_Homepage").withParams(params).execute(context);
 	}
-	public static void updateRoles(IContext context, googleauthenticator.proxies.GoogleAuthCredential _googleAuthCredential, googleauthenticator.proxies.QRValidation _qRValidation)
+	public static boolean redirectUser(IContext context, googleauthenticator.proxies.GoogleAuthCredential _googleAuthCredential)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("GoogleAuthCredential", _googleAuthCredential == null ? null : _googleAuthCredential.getMendixObject());
+		return (java.lang.Boolean) Core.microflowCall("GoogleAuthenticator.RedirectUser").withParams(params).execute(context);
+	}
+	public static void updateRolesAfterValidation(IContext context, googleauthenticator.proxies.GoogleAuthCredential _googleAuthCredential, googleauthenticator.proxies.QRValidation _qRValidation)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("GoogleAuthCredential", _googleAuthCredential == null ? null : _googleAuthCredential.getMendixObject());
 		params.put("QRValidation", _qRValidation == null ? null : _qRValidation.getMendixObject());
-		Core.microflowCall("GoogleAuthenticator.UpdateRoles").withParams(params).execute(context);
+		Core.microflowCall("GoogleAuthenticator.UpdateRolesAfterValidation").withParams(params).execute(context);
 	}
 	public static boolean validateAndConfirmNewLink(IContext context, googleauthenticator.proxies.QRValidation _qRValidation, googleauthenticator.proxies.GoogleAuthCredential _googleAuthCredential)
 	{
@@ -90,5 +103,12 @@ public class Microflows
 		params.put("QRValidation", _qRValidation == null ? null : _qRValidation.getMendixObject());
 		params.put("GoogleAuthCredential", _googleAuthCredential == null ? null : _googleAuthCredential.getMendixObject());
 		return (java.lang.Boolean) Core.microflowCall("GoogleAuthenticator.ValidateAndConfirmNewLink").withParams(params).execute(context);
+	}
+	public static boolean validateGAuthPin(IContext context, googleauthenticator.proxies.QRValidation _qRValidation, googleauthenticator.proxies.GoogleAuthCredential _googleAuthCredential)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("QRValidation", _qRValidation == null ? null : _qRValidation.getMendixObject());
+		params.put("GoogleAuthCredential", _googleAuthCredential == null ? null : _googleAuthCredential.getMendixObject());
+		return (java.lang.Boolean) Core.microflowCall("GoogleAuthenticator.ValidateGAuthPin").withParams(params).execute(context);
 	}
 }
