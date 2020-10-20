@@ -2,43 +2,41 @@
  
 ## Introduction
 
-This connector enables you to generate a secret key and a otp authentication URL to register an application in the Google Authenticator app on the device of a user. Furthermore, you can use a validation action to validate codes being generated on the device of a user with a secret key.
+This connector enables you to setup two-factor authentication for your users. This is achieved by creating a separate role and isolating the user after the regular user/password authentication. No additional development effort is required when setting up this module. This module only works with the built-in authentication, but with minimal (java) code this can easily be adapted to be compatible with any other form of authentication.
 
-## Configuration
- ![Available actions][3] 
- 
-### Create credentials
- 
- - Create a 'credentials' entity which contains or is associated with a user to store the secret key. Don't forget to set your entity access rules appropriately! Only the business logic of your app should be able to read the secret key. 
 
- - Use a QR code viewer from the Mendix App Store to view the generate otp authentication URL.
+## Setup steps:
+1. Added the microflow AfterStartup to your startup microflow
+2. Replace your home pages with the microflow Nav_HomePage. You must use this microflow as the home page for all roles.   Add a subflow at the end of this microflow which can evaluate the pages to open.
+3. Change the NameTemplate Constant, this will be the name of the app that shows in your authenticator app.
+4. Add the required UI components to reset the authenticator. Either add the page UsersWithGoogleAuthSetup to the menu or include the AccountEditSnippet in your account edit page. Both allow your admin user to remove an GoogleAuth link.
+5. Add the 'Admin' module rules to your admin user. 
+6. Create an userrole with the name: AuthUser. and only assign the module role 'AuthUser' to it. Nothing else, this role is used by the module to lock down the authentication process.   The after startup microflow retrieves this role and passes it to Java, you might need to change this retrieve activity.
+   DO NOT add the role 'AuthUser' to any user! 
+   NEVER Assign the role 'Tester' to any of your module roles. this is an god-admin user that is only used for testing and troubleshooting. 
 
- - Create a microflow which receives your 'credentials' entity and passes it as a parameter to the 'Google Authenticator Connector - Create user credentials' action. The action only changes the 'ga_SecretKey' attribute in your entity so you need to commit the entity yourself. (This way you're free in how you take care of your entities and storing of objects). 
- 
- - The 'Google Authenticator Connector - Create user credentials' also requires a username and the name of your application(issuer). These values will be reflected in Googles 'Google Authenticator' app on the device of the user, so the user knows which code belongs to an application.
- 
- - Create a page which shows the otp authentication URL as a QR-code to your user. You can use the ImageViewer widget from the App Store for this, for example. It's recommended to show the QR code to the user just once and to not store the value in the database.
-  
-![Create credentials][1]
 
-### Validate code
+## How it works
+When a user signs in there is a Java action that has overriden the standard login process. When a user enters a valid username and password, it will prep for the two-factor auth. It sets up the GAuth entity.
 
-- Create a page in your applications where the user can fill in the code which is generated on the device of the user. 
+First it copies the users original roles to this entity as a backup.
+Then it will reset the users roles, and only assign user role: 'AuthUser' 
 
-- Pass this code to the 'Google Authenticator Connector - Check validation code' action together with the secretkey stored with the user. (The secret key is available in the 'Credentials' entity which is described under 'Create Credentials' above.)
+Continuing with the login process, if the user has the AuthUser role it will lookup the GAuth data. 
+If GAuth has never been setup it will show a QR code to add to the Google Auth app, and a box to confirm the setup by entering the current code in their app.  If correct all info is stored.
 
-- The result of this authentication (boolean) can be used in any way you like.
+After successful setup of the new GAuth link, or validation of an existing code, the user clicks a nanoflow button. This will trigger a microflow to reset the userroles from the user back to the original, once that's done the NanoFlow will refresh the page and the user has successfully authenticated.
 
-- Since TOTP passwords are time-based, it is essential that the clock of both the server and the client are synchronised within the tolerance used by the library (30 seconds by default).
-
-![Validate code][2]
+In development there is a separate page that is shown that allows the user to skip two-factor auth locally. This page and the MF explicitly checks if DevMode is on/off, so locally you can sign on without having to enter the code every time. 
+The module does require 2FA to be setup before it allows skipping. 
 
 
 ## Example
 The GitHub project of this module contains a working example.
 
 ## Dependencies
-
+- Mx8.10 or higher
+- Not compatible with any of the other SSO modules
 - googleauth-1.1.4.jar
 - commons-codec-1.11.jar
 - httpclient-4.5.6.jar
