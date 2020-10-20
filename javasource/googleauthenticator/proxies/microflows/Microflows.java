@@ -104,11 +104,11 @@ public class Microflows
 		params.put("GoogleAuthCredential", _googleAuthCredential == null ? null : _googleAuthCredential.getMendixObject());
 		return (java.lang.Boolean) Core.microflowCall("GoogleAuthenticator.ValidateAndConfirmNewLink").withParams(params).execute(context);
 	}
-	public static boolean validateGAuthPin(IContext context, googleauthenticator.proxies.QRValidation _qRValidation, googleauthenticator.proxies.GoogleAuthCredential _googleAuthCredential)
+	public static java.lang.Long validateGAuthPin(IContext context, googleauthenticator.proxies.QRValidation _qRValidation, googleauthenticator.proxies.GoogleAuthCredential _googleAuthCredential)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		params.put("QRValidation", _qRValidation == null ? null : _qRValidation.getMendixObject());
 		params.put("GoogleAuthCredential", _googleAuthCredential == null ? null : _googleAuthCredential.getMendixObject());
-		return (java.lang.Boolean) Core.microflowCall("GoogleAuthenticator.ValidateGAuthPin").withParams(params).execute(context);
+		return (java.lang.Long) Core.microflowCall("GoogleAuthenticator.ValidateGAuthPin").withParams(params).execute(context);
 	}
 }

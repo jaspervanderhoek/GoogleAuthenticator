@@ -22,6 +22,7 @@ public class QRValidation
 	{
 		PIN("PIN"),
 		Validated("Validated"),
+		AttemptNr("AttemptNr"),
 		QRValidation_GoogleAuthCredential("GoogleAuthenticator.QRValidation_GoogleAuthCredential");
 
 		private java.lang.String metaName;
@@ -179,6 +180,42 @@ public class QRValidation
 	public final void setValidated(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Boolean validated)
 	{
 		getMendixObject().setValue(context, MemberNames.Validated.toString(), validated);
+	}
+
+	/**
+	 * @return value of AttemptNr
+	 */
+	public final java.lang.Integer getAttemptNr()
+	{
+		return getAttemptNr(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of AttemptNr
+	 */
+	public final java.lang.Integer getAttemptNr(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Integer) getMendixObject().getValue(context, MemberNames.AttemptNr.toString());
+	}
+
+	/**
+	 * Set value of AttemptNr
+	 * @param attemptnr
+	 */
+	public final void setAttemptNr(java.lang.Integer attemptnr)
+	{
+		setAttemptNr(getContext(), attemptnr);
+	}
+
+	/**
+	 * Set value of AttemptNr
+	 * @param context
+	 * @param attemptnr
+	 */
+	public final void setAttemptNr(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Integer attemptnr)
+	{
+		getMendixObject().setValue(context, MemberNames.AttemptNr.toString(), attemptnr);
 	}
 
 	/**

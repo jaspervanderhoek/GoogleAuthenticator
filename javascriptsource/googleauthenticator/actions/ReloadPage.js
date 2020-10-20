@@ -15,7 +15,7 @@ import { Big } from "big.js";
  */
 export async function ReloadPage() {
 	// BEGIN USER CODE
-	setTimeout( function() { location.reload(); }, 2000);
+	setTimeout( function() { window.location.href =  window.location.href.split("?")[0]; }, 2000);
 	
 	return;
 	// END USER CODE
